@@ -158,6 +158,7 @@ namespace util {
         else
           state_ = State::invalid;
 #endif
+
         return x_.has_value();
       }
 

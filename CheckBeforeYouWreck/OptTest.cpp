@@ -1,12 +1,17 @@
+// ReSharper disable CppClangTidyMiscUseInternalLinkage
 #include "includes.h"
 #include "Opt.h"
 
 using util::Opt;
 
+[[nodiscard]] Opt<ChatteringClass> ff() {
+  return std::in_place;
+}
+
 TEST(Opt, xx) {
 
-  Opt<string> s{"gay"};
+  Opt const s{ff()};
   ASSERT_TRUE(s.valid());
-  std::string const x{*std::move(s)};
+  ChatteringClass const& x{*s};
   std::ignore = x;
 }
