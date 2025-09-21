@@ -33,7 +33,7 @@ namespace util {
   !HasErr<T> &&
     !HasEc<T> &&
     !std::same_as<T, std::in_place_t>)
-    class [[nodiscard]] Opt {
+  class [[nodiscard]] Opt {
     std::optional<T> x_{};
 
     //Disallow Opt<Opt<T>>
