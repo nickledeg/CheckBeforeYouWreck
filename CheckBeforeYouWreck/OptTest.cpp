@@ -8,7 +8,7 @@ using util::Opt;
   return std::in_place;
 }
 
-TEST(Opt, xx) {
+TEST(Opt, test) {
 
   Opt const s{ff()};
   ASSERT_TRUE(s.valid());
