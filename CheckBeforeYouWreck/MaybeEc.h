@@ -52,7 +52,7 @@ namespace util {
 
     template <typename... Args>
       requires (std::constructible_from<T, Args...>)
-    [[nodiscard]] constexpr explicit MaybeEc(
+    [[nodiscard]] constexpr MaybeEc(
       std::in_place_t, Args&&... args) noexcept(
         std::is_nothrow_constructible_v<T, Args...>):
       x_{std::in_place, std::forward<Args>(args)...} {}
