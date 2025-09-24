@@ -131,6 +131,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MaybeEcTest.cpp" />
+    <ClCompile Include="Opt0Test.cpp" />
+    <ClCompile Include="Opt1Test.cpp" />
     <ClCompile Include="OptTest.cpp" />
     <ClCompile Include="optionalTests.cpp" />
   </ItemGroup>
@@ -139,8 +142,10 @@
     <ClInclude Include="concepts.h" />
     <ClInclude Include="gtestWrapper.h" />
     <ClInclude Include="includes.h" />
+    <ClInclude Include="MaybeEc.h" />
     <ClInclude Include="Opt.h" />
     <ClInclude Include="Opt0.h" />
+    <ClInclude Include="Opt1.h" />
     <ClInclude Include="StateWrapper.h" />
     <ClInclude Include="ValueType.h" />
   </ItemGroup>
@@ -148,6 +153,9 @@
     <ProjectReference Include="..\GoogleTest\GoogleTest.vcxproj">
       <Project>{aac77994-c980-41ee-bbab-7618bb9c268b}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="StateWrapper.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,7 +2,6 @@
 #pragma once
 #include <cassert>
 
-#include "StateWrapper.h"
 #include "ValueType.h"
 #include "concepts.h"
 
@@ -13,7 +12,7 @@
 //3. Disallow references and C arrays PASS
 //4. Accidental copies prevented      PASS
 //5. Disallow Opt<Opt<T>>             PASS
-//6. Guaranteed access check          PASS
+//6. Guaranteed access check          DANGEROUS
 
 namespace util {
 
@@ -33,11 +32,11 @@ namespace util {
       !HasErr<T> &&
       !HasEc<T> &&
       !std::same_as<T, std::in_place_t>)
-  class [[nodiscard]] Opt {
+    class [[nodiscard]] Opt1 {
     std::optional<T> x_{};
 
-    //Disallow Opt<Opt<T>>
-    static_assert(!std::same_as<T, Opt<ValueType<T>>>);
+    //Disallow Opt1<Opt1<T>>
+    static_assert(!std::same_as<T, Opt1<ValueType<T>>>);
 
 #ifndef _NDEBUG
 
@@ -47,53 +46,53 @@ namespace util {
       invalid
     };
 
-    mutable StateWrapper<State> state_{};
+    mutable State state_{};
 #endif
 
-  public:
-    static constexpr bool DEBUG_CHANGES_LAYOUT{true};
-    using value_type = T;
+    public:
+      static constexpr bool DEBUG_CHANGES_LAYOUT{true};
+      using value_type = T;
 
       //Note that none of the constructors are explicit
       //This is because we want to be able to return
       //default ctor
-      constexpr Opt() noexcept = default;
+      constexpr Opt1() noexcept = default;
 
       //pass through in-place constructor
       template <typename... Args>
         requires(std::is_constructible_v<T, Args...>)
-      constexpr Opt(std::in_place_t, Args&&... args) noexcept(
+      constexpr Opt1(std::in_place_t, Args&&... args) noexcept(
         std::is_nothrow_constructible_v<T, Args...>) :
         x_{ std::in_place, std::forward<Args>(args)... } {
       }
 
       //rvalue reference constructor
-      constexpr Opt(T&& x) noexcept :
+      constexpr Opt1(T&& x) noexcept :
         x_{ std::move(x) } {
       }
 
       //we do not allow non trivially copyable T
-      //to construct Opt<T> since we want to avoid
+      //to construct Opt1<T> since we want to avoid
       //accidental copies.
-      constexpr Opt(T const& x) noexcept
+      constexpr Opt1(T const& x) noexcept
         requires(std::is_trivially_copyable_v<T>) :
         x_{ x } {
       }
 
       //again same reasoning as above
-      constexpr Opt(T& x) noexcept requires(
+      constexpr Opt1(T& x) noexcept requires(
         std::is_trivially_copyable_v<T>) :
         x_{ x } {
       }
 
       //we delete this constructor for non trivially
       //copyable types for the same reason as above
-      constexpr Opt(T const&)
+      constexpr Opt1(T const&)
         requires(!std::is_trivially_copyable_v<T>) = delete;
 
       //we delete this constructor for non trivially
       //copyable types for the same reason as above
-      constexpr Opt(T&)
+      constexpr Opt1(T&)
         requires(!std::is_trivially_copyable_v<T>) = delete;
 
       //pass through function
@@ -102,21 +101,20 @@ namespace util {
       constexpr T& emplace(Args&&... args) noexcept(
         std::is_nothrow_constructible_v<T, Args...>) {
 
-      T& res{x_.emplace(std::forward<Args>(args)...)};
+        T& res{x_.emplace(std::forward<Args>(args)...)};
 
 #ifndef _NDEBUG
-      if (state_.in(State::invalid))
-        state_ = State::unchecked;
+        if (state_ == State::invalid)
+          state_ = State::unchecked;
 #endif
 
-      return res;
-    }
+        return res;
+      }
 
       //pass through function
-      [[nodiscard]] constexpr T const* operator->(
-        ) const noexcept {
+      [[nodiscard]] constexpr T const* operator->() const noexcept {
 
-		assert(state_.in(State::valid));
+        assert(state_ == State::valid);
         assert(x_.has_value());
         return x_.operator->();
       }
@@ -124,16 +122,15 @@ namespace util {
       //pass through function
       [[nodiscard]] constexpr T* operator->() noexcept {
 
-        assert(state_.in(State::valid));
+        assert(state_ == State::valid);
         assert(x_.has_value());
         return x_.operator->();
       }
 
       //pass through function
-      [[nodiscard]] constexpr T const& operator*(
-        ) const& noexcept {
+      [[nodiscard]] constexpr T const& operator*() const& noexcept {
 
-        assert(state_.in(State::valid));
+        assert(state_ == State::valid);
         assert(x_.has_value());
         return x_.operator*();
       }
@@ -141,7 +138,7 @@ namespace util {
       //pass through function
       [[nodiscard]] constexpr T& operator*() & noexcept {
 
-        assert(state_.in(State::valid));
+        assert(state_ == State::valid);
         assert(x_.has_value());
         return x_.operator*();
       }
@@ -149,7 +146,7 @@ namespace util {
       //pass through function
       [[nodiscard]] constexpr T&& operator*() && noexcept {
 
-        assert(state_.in(State::valid));
+        assert(state_ == State::valid);
         assert(x_.has_value());
         return std::move(x_).operator*();
       }
@@ -201,8 +198,4 @@ namespace util {
         return {};
       }
   };
-
-  //concept top test if a type is an Opt
-  template <typename T>
-  concept Optional = std::same_as<T, Opt<ValueType<T>>>;
 }

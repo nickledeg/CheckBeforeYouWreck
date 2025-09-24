@@ -10,6 +10,7 @@ namespace util {
       std::remove_cvref_t<T>,
       std::remove_cvref_t<U>>;
 
+
   template <typename T>
   concept Undecorated =
     std::same_as<T, std::remove_cvref_t<T>> &&
@@ -29,4 +30,36 @@ namespace util {
 
   template <typename T>
   concept Enum = std::is_enum_v<T>;
+
+  template <typename T>
+  concept EnumOrBool = Enum<T> || std::same_as<T, bool>;
+
+  template <typename T, typename... Candidates>
+  concept OneOf = (std::same_as<T, Candidates> || ...);
+
+  template <typename T>
+  concept Signed = OneOf<
+    T,
+    int8_t,
+    int16_t,
+    int32_t,
+    int64_t,
+    long,
+    long long>;
+
+  template <typename T>
+  concept Unsigned = OneOf<
+    T,
+    uint8_t,
+    uint16_t,
+    uint32_t,
+    uint64_t,
+    unsigned long,
+    unsigned long long>;
+
+  template <typename T>
+  concept StrictInt = Signed<T> || Unsigned<T>;
+
+  template <typename T>
+  concept EnumBoolOrStrictInt = EnumOrBool<T> || StrictInt<T>;
 }

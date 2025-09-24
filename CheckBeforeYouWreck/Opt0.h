@@ -72,6 +72,11 @@ namespace util {
 
     //we delete this constructor for non trivially
     //copyable types for the same reason as above
+    constexpr Opt0(T const&)
+      requires(!std::is_trivially_copyable_v<T>) = delete;
+
+    //we delete this constructor for non trivially
+    //copyable types for the same reason as above
     constexpr Opt0(T&)
       requires(!std::is_trivially_copyable_v<T>) = delete;
 
@@ -160,8 +165,4 @@ namespace util {
       return {};
     }
   };
-
-  //concept top test if a type is an Opt0
-  template <typename T>
-  concept Optional = std::same_as<T, Opt0<ValueType<T>>>;
 }

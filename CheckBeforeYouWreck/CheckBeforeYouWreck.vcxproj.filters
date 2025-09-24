@@ -19,6 +19,15 @@
     <ClCompile Include="OptTest.cpp">
       <Filter>tests</Filter>
     </ClCompile>
+    <ClCompile Include="Opt0Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Opt1Test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="MaybeEcTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes.h">
@@ -45,5 +54,16 @@
     <ClInclude Include="Opt.h">
       <Filter>classes</Filter>
     </ClInclude>
+    <ClInclude Include="Opt1.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+    <ClInclude Include="MaybeEc.h">
+      <Filter>classes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="StateWrapper.natvis">
+      <Filter>classes</Filter>
+    </Natvis>
   </ItemGroup>
 </Project>
