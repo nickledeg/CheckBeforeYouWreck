@@ -6,7 +6,7 @@
 #include <optional>
 
 //1. No operator==                    PASS
-//2. No conversion to bool            PASS
+//2. No implicit conversion to bool   PASS
 //3. Disallow references and C arrays PASS
 //4. Accidental copies prevented      PASS
 //5. Disallow Opt0<Opt0<T>>           PASS
@@ -67,8 +67,7 @@ namespace util {
     //again same reasoning as above
     constexpr Opt0(T& x) noexcept requires(
       std::is_trivially_copyable_v<T>) :
-      x_{ x } {
-    }
+      x_{ x } {}
 
     //we delete this constructor for non trivially
     //copyable types for the same reason as above
@@ -91,35 +90,40 @@ namespace util {
     }
 
     //pass through function
-    [[nodiscard]] constexpr T const* operator->() const noexcept {
+    [[nodiscard]] constexpr T const* operator->(
+      ) const noexcept {
 
       assert(x_.has_value());
       return x_.operator->();
     }
 
     //pass through function
-    [[nodiscard]] constexpr T* operator->() noexcept {
+    [[nodiscard]] constexpr T* operator->(
+      ) noexcept {
 
       assert(x_.has_value());
       return x_.operator->();
     }
 
     //pass through function
-    [[nodiscard]] constexpr T const& operator*() const& noexcept {
+    [[nodiscard]] constexpr T const& operator*(
+      ) const& noexcept {
 
       assert(x_.has_value());
       return x_.operator*();
     }
 
     //pass through function
-    [[nodiscard]] constexpr T& operator*() & noexcept {
+    [[nodiscard]] constexpr T& operator*(
+      ) & noexcept {
 
       assert(x_.has_value());
       return x_.operator*();
     }
 
     //pass through function
-    [[nodiscard]] constexpr T&& operator*() && noexcept {
+    [[nodiscard]] constexpr T&& operator*(
+      ) && noexcept {
 
       assert(x_.has_value());
       return std::move(x_).operator*();
@@ -141,7 +145,9 @@ namespace util {
     //same as operator== but more
     //explicit to prevent confusion
     template <std::equality_comparable_with<T> U>
-    [[nodiscard]] constexpr bool eq(U const& x) const noexcept {
+    [[nodiscard]] constexpr bool eq(
+      U const& x) const noexcept {
+
       return x_.has_value() && *x_ == x;
     }
 

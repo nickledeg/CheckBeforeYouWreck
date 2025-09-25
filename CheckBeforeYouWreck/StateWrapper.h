@@ -10,13 +10,17 @@
 #ifndef NDEBUG
 namespace util {
 
-  //note that we deliberately do not
-  //specify move ctor or operator.
-  //We don't even delete them.
-  //We always want a pure copy
-  
   template <Enum E>
   class [[nodiscard]] StateWrapper {
+
+    //The enum value indicating the state
+    //The default value of the enum should be
+    //"unchecked"
+    E state_{};
+
+    //We only perform checking on the same thread on
+    //which the class is instantiated.
+    std::jthread::id threadId_{};
 
     //Used to block this class from being used as a
     //compile time constant.
@@ -27,52 +31,49 @@ namespace util {
     //Under MSVC, it would cause the compiler to crash!
     std::unique_ptr <std::byte> constexprBlocker_{};
 
-    //We only perform checking on the same thread on
-    //which the class is instantiated.
-    std::jthread::id threadId_{};
-
-    //The enum value actually indicating the state
-    //The default value of the enum should be
-    //"unchecked"
-    E x_{};
-
   public:
     //Default ctor. 
     constexpr StateWrapper() noexcept :
-      //block from creation as a compile time constant
-      constexprBlocker_{createConstexprBlocker()},
       //current thread id.
       //Checks are only performed on the creating thread 
-      threadId_{curThreadId()} {}
+      threadId_{curThreadId()},
+      //block from creation as a compile time constant
+      constexprBlocker_{createConstexprBlocker()} {}
 
     //copy ctor. Note we don't define a move ctor.
     constexpr StateWrapper(
       StateWrapper const& other) noexcept :
-      //block from creation as a compile
-      //time constant. We create a new instance
-      //as we cannot copy a std::unique_ptr.
-      constexprBlocker_{createConstexprBlocker()},
+      //the status is copied
+      //from one object to another.
+      state_{other.state_},
       //note that we do not copy the thread id.
       //i.e. the copied object is tied to the
       //thread that it is created on rather than
       //the creation thread of the object that
       //it was copied from.
       threadId_{curThreadId()},
-      //the checked status is copied
-      //from one object to another.
-      x_{other.x_} {}
+      //block from creation as a compile
+      //time constant. We create a new instance
+      //as we cannot copy a std::unique_ptr.
+      constexprBlocker_{createConstexprBlocker()} {}
 
     //copy operator. Note that we don't define
     //a move operator.
     constexpr StateWrapper& operator=(
       StateWrapper const& other) noexcept {
 
-      //note that the thread id is left as is.
+      //note that the thread id and constexpr blocker
+      //are left as they were.
       if (&other != this)
-        x_ = other.x_;
+        state_ = other.state_;
 
       return *this;
     }
+
+    //note that we deliberately do not
+    //specify move ctor or operator.
+    //We don't even delete them.
+    //We always want a pure copy
 
     constexpr ~StateWrapper() noexcept = default;
 
@@ -86,7 +87,7 @@ namespace util {
       //The checking that StateWrapper provides
       //is only effective on the creation thread.
       if (threadId_ == curThreadId())
-        x_ = x;
+        state_ = x;
 
       return *this;
     }
@@ -104,7 +105,7 @@ namespace util {
       //is only effective on the creation thread.
       return
         threadId_ != curThreadId() ||
-        ((x_ == args) || ...);
+        ((state_ == args) || ...);
     }
 
   private:

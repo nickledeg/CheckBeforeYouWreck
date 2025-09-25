@@ -38,7 +38,7 @@ namespace util {
     //Disallow Opt1<Opt1<T>>
     static_assert(!std::same_as<T, Opt1<ValueType<T>>>);
 
-#ifndef _NDEBUG
+#ifndef NDEBUG
 
     enum class [[nodiscard]] State : uint8_t {
       unchecked,
@@ -103,7 +103,7 @@ namespace util {
 
         T& res{x_.emplace(std::forward<Args>(args)...)};
 
-#ifndef _NDEBUG
+#ifndef NDEBUG
         if (state_ == State::invalid)
           state_ = State::unchecked;
 #endif
@@ -112,7 +112,8 @@ namespace util {
       }
 
       //pass through function
-      [[nodiscard]] constexpr T const* operator->() const noexcept {
+      [[nodiscard]] constexpr T const* operator->(
+        ) const noexcept {
 
         assert(state_ == State::valid);
         assert(x_.has_value());
@@ -120,7 +121,8 @@ namespace util {
       }
 
       //pass through function
-      [[nodiscard]] constexpr T* operator->() noexcept {
+      [[nodiscard]] constexpr T* operator->(
+        ) noexcept {
 
         assert(state_ == State::valid);
         assert(x_.has_value());
@@ -128,7 +130,8 @@ namespace util {
       }
 
       //pass through function
-      [[nodiscard]] constexpr T const& operator*() const& noexcept {
+      [[nodiscard]] constexpr T const& operator*(
+        ) const& noexcept {
 
         assert(state_ == State::valid);
         assert(x_.has_value());
@@ -136,7 +139,8 @@ namespace util {
       }
 
       //pass through function
-      [[nodiscard]] constexpr T& operator*() & noexcept {
+      [[nodiscard]] constexpr T& operator*(
+        ) & noexcept {
 
         assert(state_ == State::valid);
         assert(x_.has_value());
@@ -156,7 +160,7 @@ namespace util {
       //it is confusing
       [[nodiscard]] constexpr bool valid() const noexcept {
 
-#ifndef _NDEBUG
+#ifndef NDEBUG
         if (x_.has_value())
           state_ = State::valid;
         else
@@ -168,6 +172,10 @@ namespace util {
 
       //pass through function
       constexpr void reset() noexcept {
+#ifndef NDEBUG 
+        if (state_ == State::valid)
+          state_ = State::unchecked;
+#endif
         return x_.reset();
       }
 

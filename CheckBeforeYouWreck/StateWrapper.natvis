@@ -2,6 +2,10 @@
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
   <Type Name="util::StateWrapper&lt;*&gt;">
-	<DisplayString>{x_}</DisplayString>
+	<DisplayString>{state_}</DisplayString>
   </Type>
+
+	<Type Name="ChatteringClass">
+		<DisplayString>Instance {n_} of ChatteringClass</DisplayString>
+	</Type>	
 </AutoVisualizer>

@@ -13,7 +13,7 @@
 //3. Disallow references and C arrays PASS
 //4. Accidental copies prevented      PASS
 //5. Disallow Opt<Opt<T>>             PASS
-//6. Guaranteed access check          PASS
+//6. Guaranteed access check          PASS (with caveats)
 
 namespace util {
 
@@ -39,7 +39,7 @@ namespace util {
     //Disallow Opt<Opt<T>>
     static_assert(!std::same_as<T, Opt<ValueType<T>>>);
 
-#ifndef _NDEBUG
+#ifndef NDEBUG
 
     enum class [[nodiscard]] State : uint8_t {
       unchecked,
@@ -104,7 +104,7 @@ namespace util {
 
       T& res{x_.emplace(std::forward<Args>(args)...)};
 
-#ifndef _NDEBUG
+#ifndef NDEBUG
       if (state_.in(State::invalid))
         state_ = State::unchecked;
 #endif
@@ -116,7 +116,7 @@ namespace util {
       [[nodiscard]] constexpr T const* operator->(
         ) const noexcept {
 
-		assert(state_.in(State::valid));
+		    assert(state_.in(State::valid));
         assert(x_.has_value());
         return x_.operator->();
       }
@@ -159,7 +159,7 @@ namespace util {
       //it is confusing
       [[nodiscard]] constexpr bool valid() const noexcept {
 
-#ifndef _NDEBUG
+#ifndef NDEBUG
         if (x_.has_value())
           state_ = State::valid;
         else
@@ -171,6 +171,11 @@ namespace util {
 
       //pass through function
       constexpr void reset() noexcept {
+
+#ifndef NDEBUG 
+        if (state_.in(State::valid))
+          state_ = State::unchecked;
+#endif
         return x_.reset();
       }
 

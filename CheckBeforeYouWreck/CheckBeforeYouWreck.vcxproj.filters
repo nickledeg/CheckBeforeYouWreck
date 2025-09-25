@@ -4,29 +4,37 @@
     <Filter Include="prelims">
       <UniqueIdentifier>{7689598f-a9d8-48ae-b5b4-cb849aecb4f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tests">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="00 optionalTests">
+      <UniqueIdentifier>{2804bebe-a1f1-4d99-befd-32fd2590df4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="classes">
-      <UniqueIdentifier>{3747d5b9-99d4-4c08-b604-0aae0d40cb58}</UniqueIdentifier>
+    <Filter Include="01 first stab Opt0">
+      <UniqueIdentifier>{05821d88-262e-4d99-a4de-ced8485be1f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02 guaranteed check Opt1">
+      <UniqueIdentifier>{3aeb5411-bf06-420e-be87-ff7e01d26eaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 better check Opt">
+      <UniqueIdentifier>{e759b3bc-4155-4d18-9065-3c3fdd2c1b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04 MaybeEc">
+      <UniqueIdentifier>{dd011b7f-7182-419f-942d-8919435e89de}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="optionalTests.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
-    <ClCompile Include="OptTest.cpp">
-      <Filter>tests</Filter>
+      <Filter>00 optionalTests</Filter>
     </ClCompile>
     <ClCompile Include="Opt0Test.cpp">
-      <Filter>tests</Filter>
+      <Filter>01 first stab Opt0</Filter>
     </ClCompile>
     <ClCompile Include="Opt1Test.cpp">
-      <Filter>tests</Filter>
+      <Filter>02 guaranteed check Opt1</Filter>
+    </ClCompile>
+    <ClCompile Include="OptTest.cpp">
+      <Filter>03 better check Opt</Filter>
     </ClCompile>
     <ClCompile Include="MaybeEcTest.cpp">
-      <Filter>tests</Filter>
+      <Filter>04 MaybeEc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -36,34 +44,34 @@
     <ClInclude Include="gtestWrapper.h">
       <Filter>prelims</Filter>
     </ClInclude>
-    <ClInclude Include="ChatteringClass.h">
-      <Filter>prelims</Filter>
-    </ClInclude>
-    <ClInclude Include="Opt0.h">
-      <Filter>classes</Filter>
-    </ClInclude>
     <ClInclude Include="ValueType.h">
       <Filter>prelims</Filter>
     </ClInclude>
     <ClInclude Include="concepts.h">
       <Filter>prelims</Filter>
     </ClInclude>
-    <ClInclude Include="StateWrapper.h">
-      <Filter>classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Opt.h">
-      <Filter>classes</Filter>
+    <ClInclude Include="Opt0.h">
+      <Filter>01 first stab Opt0</Filter>
     </ClInclude>
     <ClInclude Include="Opt1.h">
-      <Filter>classes</Filter>
+      <Filter>02 guaranteed check Opt1</Filter>
+    </ClInclude>
+    <ClInclude Include="Opt.h">
+      <Filter>03 better check Opt</Filter>
+    </ClInclude>
+    <ClInclude Include="StateWrapper.h">
+      <Filter>03 better check Opt</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatteringClass.h">
+      <Filter>00 optionalTests</Filter>
     </ClInclude>
     <ClInclude Include="MaybeEc.h">
-      <Filter>classes</Filter>
+      <Filter>04 MaybeEc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="StateWrapper.natvis">
-      <Filter>classes</Filter>
+      <Filter>prelims</Filter>
     </Natvis>
   </ItemGroup>
 </Project>

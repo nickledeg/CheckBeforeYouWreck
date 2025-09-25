@@ -18,12 +18,12 @@
 #pragma region everyday use
 TEST(EverydayUse, test) {
 
-  std::optional<string> const x{"some text"};
+  std::optional<string> const x{"some text"s};
 
   //check whether x has a value
   ASSERT_TRUE(x.has_value());
-  //similarly, via conversion to bool:
-  ASSERT_TRUE(bool{ x });
+  //similarly, via implicit conversion to bool:
+  ASSERT_TRUE(x);
 
   //get value from x
   ASSERT_TRUE(x.value() == "some text");
@@ -55,7 +55,7 @@ TEST(BoolTests, optional_bool_is_so_confusing) {
   optional<bool> const nullopt_value{};
 
   //optional in nullopt state converts to false 
-  ASSERT_FALSE(bool{nullopt_value});
+  ASSERT_FALSE(nullopt_value);
   //(optional has a conversion operator to bool)
 
   //std::optional in nullopt state
@@ -74,7 +74,7 @@ TEST(BoolTests, lets_try_with_an_enum_instead) {
   optional<NoYes> const nullopt_value{};
 
   //optional in nullopt state converts to false 
-  ASSERT_FALSE(bool{ nullopt_value });
+  ASSERT_FALSE(nullopt_value);
   //(optional has a conversion operator to bool)
 
   //this feels better! I can grok that an
@@ -108,21 +108,13 @@ TEST(BoolTests, more_explicit) {
   //much clearer
   ASSERT_FALSE(nullopt_value.has_value());
 
-  //**********instead of***************
+  //**********don't do this***************
   //ASSERT_FALSE(nullopt_value == false);
-  //ASSERT_FALSE(nullopt_value == true);
-  //ASSERT_TRUE(nullopt_value != false);
-  //ASSERT_TRUE(nullopt_value != true);
 
   //***********do this instead*********
-
   ASSERT_FALSE(
     nullopt_value.has_value() &&
     *nullopt_value == false);
-
-  ASSERT_FALSE(
-    nullopt_value.has_value() &&
-    *nullopt_value == true);
 
   //it shows branching explicitly through &&.
   //The extra code will encourage you to only
@@ -194,7 +186,7 @@ TEST(CopyingTests, better_move_similar_to_above_test) {
 #pragma region best - in place
 optional<ChatteringClass> best_in_place() {
 
-  return  optional<ChatteringClass>{std::in_place};
+  return optional<ChatteringClass>{std::in_place};
 }
 
 TEST(CopyingTests, best_in_place) {

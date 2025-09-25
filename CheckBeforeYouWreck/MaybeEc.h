@@ -22,7 +22,7 @@ namespace util {
 
     std::expected<T, Ec> x_;
 
-#ifndef _NDEBUG
+#ifndef NDEBUG
 
     enum class [[nodiscard]] State : uint8_t {
       unchecked,
@@ -62,7 +62,7 @@ namespace util {
 
     [[nodiscard]] constexpr bool hasEc() const noexcept {
 
-#ifndef _NDEBUG
+#ifndef NDEBUG
       if (x_.has_value())
         state_ = State::valid;
       else
@@ -80,7 +80,8 @@ namespace util {
     }
 
     //pass through
-    [[nodiscard]] constexpr T const& operator*() const & noexcept {
+    [[nodiscard]] constexpr T const& operator*(
+      ) const & noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
@@ -88,7 +89,8 @@ namespace util {
     }
 
     //pass through
-    [[nodiscard]] constexpr T& operator*() & noexcept {
+    [[nodiscard]] constexpr T& operator*(
+      ) & noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
@@ -96,7 +98,8 @@ namespace util {
     }
 
     //pass through
-    [[nodiscard]] constexpr T&& operator*() && noexcept {
+    [[nodiscard]] constexpr T&& operator*(
+      ) && noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
@@ -104,7 +107,8 @@ namespace util {
     }
 
     //pass through
-    [[nodiscard]] constexpr T const* operator->() const & noexcept {
+    [[nodiscard]] constexpr T const* operator->(
+      ) const & noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
@@ -112,7 +116,8 @@ namespace util {
     }
 
     //pass through
-    [[nodiscard]] constexpr T* operator->() & noexcept {
+    [[nodiscard]] constexpr T* operator->(
+      ) & noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
@@ -120,7 +125,8 @@ namespace util {
     }
 
     //I like having this
-    [[nodiscard]] constexpr T const* ptr() const & noexcept {
+    [[nodiscard]] constexpr T const* ptr(
+    ) const & noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
@@ -128,7 +134,8 @@ namespace util {
     }
 
     //I like having this
-    [[nodiscard]] constexpr T* ptr() & noexcept {
+    [[nodiscard]] constexpr T* ptr(
+      ) & noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
