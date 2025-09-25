@@ -1,3 +1,4 @@
+// ReSharper disable CppIncorrectBlankLinesNearBraces
 #pragma once
 
 #include <iostream>
@@ -7,19 +8,17 @@ class ChatteringClass {
 
   inline static size_t count_{};
   size_t n_{};
+
 public:
-  ChatteringClass() noexcept {
-
-    n_ = count_++;
-
+  ChatteringClass() :
+    n_{count_++} {
     cout
       << "Instance " << n_ <<
       " created from scratch.\n";
   }
 
-  ChatteringClass(ChatteringClass const& x) {
-
-    n_ = count_++;
+  ChatteringClass(ChatteringClass const& x) :
+    n_{count_++} {
 
     cout
       << "Instance " << n_ <<
@@ -31,35 +30,50 @@ public:
 
     if (&x != this)
       cout
-      << "Instance " << x.n_ <<
-      " copied into instance " << n_ << ".\n";
+        << "Instance " << x.n_ <<
+        " copied into instance " << n_ << ".\n";
 
     return *this;
   }
 
-  ChatteringClass(ChatteringClass&& x) noexcept {
+  ChatteringClass(ChatteringClass&& x) noexcept :
+    n_{count_++} {
 
-    n_ = count_++;
-
-    cout
-      << "Instance " << n_ <<
-      " created by stealing from instance "
-      << x.n_ << ".\n";
+    try {
+      cout
+        << "Instance " << n_ <<
+        " created by stealing from instance "
+        << x.n_ << ".\n";
+    }
+    catch (...) {
+      std::abort();
+    }
   }
 
   ChatteringClass& operator=(ChatteringClass&& x) noexcept {
 
-    if (&x != this)
-      cout
-      << "Instance " << n_ <<
-      " steals contents from instance "
-      << x.n_ << ".\n";
+    try {
+      if (&x != this)
+        cout
+          << "Instance " << n_ <<
+          " steals contents from instance "
+          << x.n_ << ".\n";
+    }
+    catch (...) {
+      std::abort();
+    }
 
     return *this;
   }
 
   ~ChatteringClass() noexcept {
-    cout << "Instance " << n_ << " destroyed.\n";
-    --count_;
+
+    try {
+      cout << "Instance " << n_ << " destroyed.\n";
+      --count_;
+    }
+    catch (...) {
+      std::abort();
+    }
   }
 };

@@ -6,7 +6,7 @@
 
 #include "ChatteringClass.h"
 
-#include "gtestWrapper.h"
+#include <gtest/gtest.h>
 
 using std::optional;
 using std::string;

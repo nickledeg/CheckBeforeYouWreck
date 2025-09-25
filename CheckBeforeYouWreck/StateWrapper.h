@@ -1,3 +1,4 @@
+// ReSharper disable CppIncorrectBlankLinesNearBraces
 #pragma once
 // ReSharper disable CppClangTidyCppcoreguidelinesSpecialMemberFunctions
 // ReSharper disable CppRemoveRedundantBraces
@@ -29,13 +30,13 @@ namespace util {
     //Editing a "truly const" variable at runtime
     //is undefined behaviour.
     //Under MSVC, it would cause the compiler to crash!
-    std::unique_ptr <std::byte> constexprBlocker_{};
+    std::unique_ptr<std::byte> constexprBlocker_{};
 
   public:
-    //Default ctor. 
+    //Default ctor.
     constexpr StateWrapper() noexcept :
       //current thread id.
-      //Checks are only performed on the creating thread 
+      //Checks are only performed on the creating thread
       threadId_{curThreadId()},
       //block from creation as a compile time constant
       constexprBlocker_{createConstexprBlocker()} {}
@@ -115,8 +116,8 @@ namespace util {
     //stop StateWrapper being stored as a compile
     //time constant.
     [[nodiscard]] static constexpr
-      std::unique_ptr<std::byte>
-      createConstexprBlocker() noexcept {
+    std::unique_ptr<std::byte>
+    createConstexprBlocker() noexcept {
 
       if consteval {
         try {
@@ -137,7 +138,7 @@ namespace util {
     //at compile time. (I don't think you can do
     //multi threading at compile time???)
     [[nodiscard]] static constexpr std::jthread::id
-      curThreadId() noexcept {
+    curThreadId() noexcept {
 
       if consteval {
         return {};

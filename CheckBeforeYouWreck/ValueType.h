@@ -1,3 +1,4 @@
+// ReSharper disable CppIncorrectBlankLinesNearBraces
 #pragma once
 
 // ReSharper disable once CppUnusedIncludeDirective
@@ -37,7 +38,7 @@ namespace util {
   concept PseudoEnum =
     requires(T x) {
       { x.enumValue };
-  } &&
+    } &&
     sizeof(T) == sizeof(decltype(T::enumValue)) &&
     std::integral<std::remove_cvref_t<decltype(T::enumValue)>>;
 }
@@ -62,9 +63,9 @@ namespace util::internal {
 
   template <has_value_type T>
     requires(
-  !std::input_or_output_iterator<T> &&
-    !std::ranges::range<T>)
-    struct ValueTypeHelper<T> {
+      !std::input_or_output_iterator<T> &&
+      !std::ranges::range<T>)
+  struct ValueTypeHelper<T> {
     using Type = T::value_type;
   };
 
@@ -81,12 +82,12 @@ namespace util::internal {
 
   template <typename T>
     requires (
-  !has_value_type<T> &&
-    !std::input_or_output_iterator<T> &&
-    !std::ranges::range<T> &&
-    !std::is_enum_v<T> &&
-    !PseudoEnum<T>)
-    struct ValueTypeHelper<T> {
+      !has_value_type<T> &&
+      !std::input_or_output_iterator<T> &&
+      !std::ranges::range<T> &&
+      !std::is_enum_v<T> &&
+      !PseudoEnum<T>)
+  struct ValueTypeHelper<T> {
     using Type = NoType;
   };
 }

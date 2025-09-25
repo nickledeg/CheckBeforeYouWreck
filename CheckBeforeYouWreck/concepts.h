@@ -1,3 +1,4 @@
+// ReSharper disable CppIncorrectBlankLinesNearBraces
 #pragma once
 
 #include <concepts>

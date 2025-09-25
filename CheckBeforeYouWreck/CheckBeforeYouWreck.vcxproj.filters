@@ -41,9 +41,6 @@
     <ClInclude Include="includes.h">
       <Filter>prelims</Filter>
     </ClInclude>
-    <ClInclude Include="gtestWrapper.h">
-      <Filter>prelims</Filter>
-    </ClInclude>
     <ClInclude Include="ValueType.h">
       <Filter>prelims</Filter>
     </ClInclude>
@@ -70,7 +67,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Natvis Include="StateWrapper.natvis">
+    <Natvis Include="proj.natvis">
       <Filter>prelims</Filter>
     </Natvis>
   </ItemGroup>

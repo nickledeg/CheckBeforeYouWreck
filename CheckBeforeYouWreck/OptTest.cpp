@@ -1,4 +1,5 @@
 // ReSharper disable CppClangTidyMiscUseInternalLinkage
+// ReSharper disable CppIncorrectBlankLinesNearBraces
 #include "includes.h"
 #include "Opt.h"
 

@@ -1,6 +1,8 @@
 // ReSharper disable CppVariableCanBeMadeConstexpr
 // ReSharper disable CppClangTidyMiscUseAnonymousNamespace
 // ReSharper disable CppClangTidyMiscUseInternalLinkage
+// ReSharper disable CppRedundantBlankLines
+// ReSharper disable CppIncorrectBlankLinesNearBraces
 #include "includes.h"
 
 
@@ -54,7 +56,7 @@ TEST(BoolTests, optional_bool_is_so_confusing) {
 
   optional<bool> const nullopt_value{};
 
-  //optional in nullopt state converts to false 
+  //optional in nullopt state converts to false
   ASSERT_FALSE(nullopt_value);
   //(optional has a conversion operator to bool)
 
@@ -69,11 +71,11 @@ TEST(BoolTests, optional_bool_is_so_confusing) {
 
 TEST(BoolTests, lets_try_with_an_enum_instead) {
 
-  enum class NoYes : uint8_t{ no, yes };
+  enum class NoYes : uint8_t { no, yes };
 
   optional<NoYes> const nullopt_value{};
 
-  //optional in nullopt state converts to false 
+  //optional in nullopt state converts to false
   ASSERT_FALSE(nullopt_value);
   //(optional has a conversion operator to bool)
 
@@ -191,7 +193,7 @@ optional<ChatteringClass> best_in_place() {
 
 TEST(CopyingTests, best_in_place) {
 
-  optional const x{ best_in_place() };
+  optional const x{best_in_place()};
   ASSERT_TRUE(x.has_value());
 }
 #pragma endregion

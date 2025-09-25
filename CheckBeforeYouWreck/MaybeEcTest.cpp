@@ -1,3 +1,5 @@
+// ReSharper disable CppIncorrectBlankLinesNearBraces
+// ReSharper disable CppClangTidyCppcoreguidelinesAvoidMagicNumbers
 #include "includes.h"
 #include "MaybeEc.h"
 

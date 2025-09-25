@@ -140,7 +140,6 @@
   <ItemGroup>
     <ClInclude Include="ChatteringClass.h" />
     <ClInclude Include="concepts.h" />
-    <ClInclude Include="gtestWrapper.h" />
     <ClInclude Include="includes.h" />
     <ClInclude Include="MaybeEc.h" />
     <ClInclude Include="Opt.h" />
@@ -155,7 +154,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Natvis Include="StateWrapper.natvis" />
+    <Natvis Include="proj.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

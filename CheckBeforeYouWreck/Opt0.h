@@ -1,7 +1,8 @@
 // ReSharper disable CppNonExplicitConvertingConstructor
+// ReSharper disable CppIncorrectBlankLinesNearBraces
 #pragma once
-#include "ValueType.h"
 #include "concepts.h"
+#include "ValueType.h"
 
 #include <optional>
 
@@ -50,24 +51,23 @@ namespace util {
       requires(std::is_constructible_v<T, Args...>)
     constexpr Opt0(std::in_place_t, Args&&... args) noexcept(
       std::is_nothrow_constructible_v<T, Args...>) :
-      x_{ std::in_place, std::forward<Args>(args)... } {
-    }
+      x_{std::in_place, std::forward<Args>(args)...} {}
 
     //rvalue reference constructor
     constexpr Opt0(T&& x) noexcept :
-      x_{ std::move(x) } {}
+      x_{std::move(x)} {}
 
     //we do not allow non trivially copyable T
     //to construct Opt0<T> since we want to avoid
     //accidental copies.
     constexpr Opt0(T const& x) noexcept
       requires(std::is_trivially_copyable_v<T>) :
-      x_{ x } {}
+      x_{x} {}
 
     //again same reasoning as above
     constexpr Opt0(T& x) noexcept requires(
       std::is_trivially_copyable_v<T>) :
-      x_{ x } {}
+      x_{x} {}
 
     //we delete this constructor for non trivially
     //copyable types for the same reason as above
@@ -85,13 +85,13 @@ namespace util {
     constexpr T& emplace(Args&&... args) noexcept(
       std::is_nothrow_constructible_v<T, Args...>) {
 
-      T& res{ x_.emplace(std::forward<Args>(args)...) };
+      T& res{x_.emplace(std::forward<Args>(args)...)};
       return res;
     }
 
     //pass through function
     [[nodiscard]] constexpr T const* operator->(
-      ) const noexcept {
+    ) const noexcept {
 
       assert(x_.has_value());
       return x_.operator->();
@@ -99,7 +99,7 @@ namespace util {
 
     //pass through function
     [[nodiscard]] constexpr T* operator->(
-      ) noexcept {
+    ) noexcept {
 
       assert(x_.has_value());
       return x_.operator->();
@@ -107,7 +107,7 @@ namespace util {
 
     //pass through function
     [[nodiscard]] constexpr T const& operator*(
-      ) const& noexcept {
+    ) const & noexcept {
 
       assert(x_.has_value());
       return x_.operator*();
@@ -115,7 +115,7 @@ namespace util {
 
     //pass through function
     [[nodiscard]] constexpr T& operator*(
-      ) & noexcept {
+    ) & noexcept {
 
       assert(x_.has_value());
       return x_.operator*();
@@ -123,7 +123,7 @@ namespace util {
 
     //pass through function
     [[nodiscard]] constexpr T&& operator*(
-      ) && noexcept {
+    ) && noexcept {
 
       assert(x_.has_value());
       return std::move(x_).operator*();

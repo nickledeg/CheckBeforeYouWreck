@@ -1,10 +1,11 @@
 // ReSharper disable CppNonExplicitConvertingConstructor
+// ReSharper disable CppIncorrectBlankLinesNearBraces
 #pragma once
 #include <cassert>
 
+#include "concepts.h"
 #include "StateWrapper.h"
 #include "ValueType.h"
-#include "concepts.h"
 
 #include <optional>
 
@@ -64,27 +65,23 @@ namespace util {
         requires(std::is_constructible_v<T, Args...>)
       constexpr Opt(std::in_place_t, Args&&... args) noexcept(
         std::is_nothrow_constructible_v<T, Args...>) :
-        x_{ std::in_place, std::forward<Args>(args)... } {
-      }
+        x_{std::in_place, std::forward<Args>(args)...} {}
 
       //rvalue reference constructor
       constexpr Opt(T&& x) noexcept :
-        x_{ std::move(x) } {
-      }
+        x_{std::move(x)} {}
 
       //we do not allow non trivially copyable T
       //to construct Opt<T> since we want to avoid
       //accidental copies.
       constexpr Opt(T const& x) noexcept
         requires(std::is_trivially_copyable_v<T>) :
-        x_{ x } {
-      }
+        x_{x} {}
 
       //again same reasoning as above
       constexpr Opt(T& x) noexcept requires(
         std::is_trivially_copyable_v<T>) :
-        x_{ x } {
-      }
+        x_{x} {}
 
       //we delete this constructor for non trivially
       //copyable types for the same reason as above
@@ -114,9 +111,9 @@ namespace util {
 
       //pass through function
       [[nodiscard]] constexpr T const* operator->(
-        ) const noexcept {
+      ) const noexcept {
 
-		    assert(state_.in(State::valid));
+        assert(state_.in(State::valid));
         assert(x_.has_value());
         return x_.operator->();
       }
@@ -131,7 +128,7 @@ namespace util {
 
       //pass through function
       [[nodiscard]] constexpr T const& operator*(
-        ) const& noexcept {
+      ) const & noexcept {
 
         assert(state_.in(State::valid));
         assert(x_.has_value());
@@ -172,7 +169,7 @@ namespace util {
       //pass through function
       constexpr void reset() noexcept {
 
-#ifndef NDEBUG 
+#ifndef NDEBUG
         if (state_.in(State::valid))
           state_ = State::unchecked;
 #endif

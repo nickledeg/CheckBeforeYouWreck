@@ -1,3 +1,5 @@
+// ReSharper disable CppIncorrectBlankLinesNearBraces
+// ReSharper disable GrammarMistakeInComment
 #pragma once
 // ReSharper disable CppNonExplicitConvertingConstructor
 #include <expected>
@@ -54,7 +56,7 @@ namespace util {
       requires (std::constructible_from<T, Args...>)
     [[nodiscard]] constexpr MaybeEc(
       std::in_place_t, Args&&... args) noexcept(
-        std::is_nothrow_constructible_v<T, Args...>):
+      std::is_nothrow_constructible_v<T, Args...>) :
       x_{std::in_place, std::forward<Args>(args)...} {}
 
     [[nodiscard]] constexpr MaybeEc(Ec ec) noexcept :
@@ -81,7 +83,7 @@ namespace util {
 
     //pass through
     [[nodiscard]] constexpr T const& operator*(
-      ) const & noexcept {
+    ) const & noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
@@ -90,7 +92,7 @@ namespace util {
 
     //pass through
     [[nodiscard]] constexpr T& operator*(
-      ) & noexcept {
+    ) & noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
@@ -99,7 +101,7 @@ namespace util {
 
     //pass through
     [[nodiscard]] constexpr T&& operator*(
-      ) && noexcept {
+    ) && noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
@@ -108,7 +110,7 @@ namespace util {
 
     //pass through
     [[nodiscard]] constexpr T const* operator->(
-      ) const & noexcept {
+    ) const & noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
@@ -117,7 +119,7 @@ namespace util {
 
     //pass through
     [[nodiscard]] constexpr T* operator->(
-      ) & noexcept {
+    ) & noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
@@ -135,7 +137,7 @@ namespace util {
 
     //I like having this
     [[nodiscard]] constexpr T* ptr(
-      ) & noexcept {
+    ) & noexcept {
 
       assert(state_.in(State::valid));
       assert(x_.has_value());
