@@ -4,7 +4,11 @@
 #include <cassert>
 
 #include "concepts.h"
+
+#ifndef NDEBUG
 #include "StateWrapper.h"
+#endif
+
 #include "ValueType.h"
 
 #include <optional>

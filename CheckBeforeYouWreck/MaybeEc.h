@@ -4,7 +4,11 @@
 // ReSharper disable CppNonExplicitConvertingConstructor
 #include <expected>
 
+#include "concepts.h"
+
+#ifndef NDEBUG
 #include "StateWrapper.h"
+#endif
 
 namespace util {
 
